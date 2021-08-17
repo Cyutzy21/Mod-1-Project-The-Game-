@@ -1,0 +1,129 @@
+body
+{
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+   
+}
+
+h1{
+    text-align: center;
+    color: darkgreen;
+}
+
+table
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    height: 200px;
+    width: 600px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    display: table;
+    padding: 8px 8px 8px 8px;
+}
+
+th
+{
+    color:orange;
+}
+
+div.buttonbox
+{
+    width: 40%;
+    background-color: lightgreen;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 8px 8px 8px 8px
+}
+
+div.textupdates
+{
+    width: 600px;
+    height: 60px;
+    background-color: #eaeaea;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 8px 8px 8px 8px;
+    font-weight: bold;
+    /*font-size: larger;*/
+    margin-top: 20px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.cool
+{
+    background-color: #ff0000
+}
+
+.hot
+{
+    background-color: #2336ac
+}
+
+.hidden
+{
+    visibility: hidden
+}
+
+.blackcard
+{
+    font-weight: bold;      
+}
+
+.bold
+{
+    font-weight: bold;
+}
+
+.redcard
+{
+    color: red;
+    font-weight: bold;   
+}
+
+li
+{
+    list-style-type: none;
+    
+}
+
+button
+{
+    font-size: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    margin: 10px 0px 10px 0px;
+    padding: 10px;
+    border: 2px solid #000000; /* black */    
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+button#newgame
+{
+    background-color: green;
+    width: 140px;
+}
+
+
+button#hit
+{
+    background-color: green;
+    width: 70px;
+}
+
+button#stay
+{
+    background-color: red;
+    width: 70px;
+}
+
+#tracker
+{   
+    border-top: 3px solid black;
+    border-bottom: 2px solid black;
+}
+

@@ -1,18 +1,53 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="style.css">
-   <script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
-
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+    <title>Blackjack</title>
 </head>
 <body>
-    <script src="app.js"></script>
+    <h1> Blackjack </h1>
+    <div class="textupdates" id="textUpdates">
+        Press 'New Game' to begin!
+
+
+    </div> 
+
+    <div class="buttonbox" id="newgame">
+        <button alt="play" id="play">New Game</button>
+    </div>
+    <div class="buttonbox hidden" id="buttonBox">
+        <button alt="hit" id="hit">Hit</button>
+        <button alt="stay" id="stay">Stay</button>
+    </div>
+    <table>
+        <tr>
+            <th id="phand">             
+                Your Hand
+            </th>
+            <th id="dhand">
+                Dealer's Hand
+            </th>
+        </tr>
+        <tr>
+            <td id="pcards">No cards dealt yet</td>
+            <td id="dcards">No cards dealt yet</td>
+
+        </tr> 
+    </table>
+    <div id="tracker" class="buttonbox">
+        <p>Wins: 0 Draws: 0 Losses: 0</p>
+    </div>
+    <div class="buttonbox">
+        <p><span class="bold" >Basic Strategy Suggestion: </span></p>       
+        <span id="choice" class="bold redcard"></span>
+        <!--<br />
+        <br />
+        <img src="img/stratchart.png" />-->
+    </div>
+
+
+
+<script src="app.js"></script>
 </body>
+
 </html>
