@@ -2,12 +2,18 @@ body
 {
     font-family: Arial, sans-serif;
     font-size: 18px;
+    background-color:green ;
+    background-image:url('../images/bj_3.jpg') ;
+    background-repeat: no-repeat;
+    background-position: 100px 200px;
+    background-position: center center;
+    background-size: 1500px 800px;
    
 }
 
 h1{
     text-align: center;
-    color: darkgreen;
+    color: yellow;
 }
 
 table
@@ -17,20 +23,30 @@ table
     margin-bottom: 10px;
     height: 200px;
     width: 600px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 3px ;
     display: table;
     padding: 8px 8px 8px 8px;
+    text-align: center;
+    background-color: ;
+    
 }
 
 th
 {
-    color:orange;
+    color:blue;
+    font-weight: bold;
+    font-size: xx-large;
 }
 
+td 
+{
+    color:yellow;
+    font-weight: bold;
+}
 div.buttonbox
 {
     width: 40%;
-    background-color: lightgreen;
+    background-color: powderblue;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -104,8 +120,8 @@ button
 
 button#newgame
 {
-    background-color: green;
-    width: 140px;
+    background-color:blue;
+    width: 200px;
 }
 
 
@@ -121,9 +137,11 @@ button#stay
     width: 70px;
 }
 
+/*win loss tie box*/
 #tracker
 {   
     border-top: 3px solid black;
     border-bottom: 2px solid black;
+    font-weight: bold;
 }
 

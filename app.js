@@ -100,7 +100,7 @@ var newGame = function () {
     drawHands();
     advise();
     jsbApp.buttonBox.classList.remove("hidden"); // show hit/stay buttons
-    jsbApp.textUpdates.innerHTML = "The initial hands are dealt!";
+    jsbApp.textUpdates.innerHTML = "The cards have been dealt! Good Luck!";
     
 };
 
@@ -430,27 +430,27 @@ var advise = function () {
     // provide advice based on HIGHLY simplified blackjack basic strategy
     if (playerTotal <= 11 && !soft)
     {
-        jsbApp.choice.innerHTML = "[Hit!]";
+        jsbApp.choice.innerHTML = "Hit!";
     }
     else if (playerTotal >= 12 && playerTotal <= 16 && dealerUp <= 6 && !soft)
     {
-        jsbApp.choice.innerHTML = "[Stay]";
+        jsbApp.choice.innerHTML = "Stay";
     }
     else if (playerTotal >= 12 && playerTotal <= 16 && dealerUp >= 7 && !soft)
     {
-        jsbApp.choice.innerHTML = "[Hit!]";
+        jsbApp.choice.innerHTML = "Hit!";
     }
     else if (playerTotal >= 17 && playerTotal <= 21 && !soft)
     {
-        jsbApp.choice.innerHTML = "[Stay]";
+        jsbApp.choice.innerHTML = "Stay";
     }
     else if (playerTotal >= 12 && playerTotal <= 18 && soft)
     {
-        jsbApp.choice.innerHTML = "[Hit!]";
+        jsbApp.choice.innerHTML = "Hit!";
     }
     else if (playerTotal >= 19 && playerTotal <= 21 && soft)
     {
-        jsbApp.choice.innerHTML = "[Stay]";
+        jsbApp.choice.innerHTML = "Stay";
     }
     else
     {
