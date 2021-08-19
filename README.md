@@ -1,0 +1,3 @@
+#My Project is Blackjack
+
+This should just be a simple game of blackjack. The goal is to get closer to 21 than the dealer. I am trying to add chips, for betting to add another layer to this game. There are certain things that i have not figured out yet. Some of those are being able to split cards, or double down in certain situations. Otherwise, you just hit or stay according to the in game help tool. 

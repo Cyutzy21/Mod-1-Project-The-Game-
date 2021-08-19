@@ -1,19 +1,12 @@
 // Simple strategy is a massive oversimplification
 
 
-// Object creation helper function from JavaScript: The Good Parts
-/*
-if (typeof Object.create !== 'function') {
-    Object.create = function (o) {
-        var F = function () { };
-        F.prototype = o;
-        return new F();
-    }
-};*/
+
 
 // an object to hold all of the variables for the blackjack app
-// to avoid global variable drama
+
 var jsbApp = {};
+
 
 // Store important elements in variables for later manipulation
 jsbApp.pcards = document.getElementById('pcards');
@@ -28,6 +21,8 @@ jsbApp.dhandtext = document.getElementById('dhand');
 jsbApp.tracker = document.getElementById('tracker');
 jsbApp.newgame = document.getElementById('newgame');
 jsbApp.choice = document.getElementById('choice');
+//adding betting?
+jsbApp.betting = document.getElementById('betting');
 
 // initialize variables to track hands/cards/etc.
 jsbApp.playerHand = [];
@@ -35,13 +30,13 @@ jsbApp.dealerHand = [];
 jsbApp.deck = [];
 jsbApp.suits = ['clubs <span class="bold">&#9827</span>', 'diamonds <span class="redcard">&#9830</span>', 'hearts <span class="redcard">&#9829</span>', 'spades <span class="bold">&#9824</span>'];
 jsbApp.values = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"];
-jsbApp.gameStatus = 0; // flag that game has not yet been won
-jsbApp.wins = 0; // flag that game has not yet been won
-jsbApp.draws = 0; // flag that game has not yet been won
-jsbApp.losses = 0; // flag that game has not yet been won
-jsbApp.games = 0; // flag that game has not yet been won
+jsbApp.gameStatus = 0; 
+jsbApp.wins = 0; 
+jsbApp.draws = 0; 
+jsbApp.losses = 0; 
+jsbApp.games = 0; 
 
-// Object Constructor for a card. !!! ALWAYS USE NEW WHEN MAKING A NEW CARD!!!
+// Object Constructor for a card
 function card(suit, value, name) {
     this.suit = suit; // string of c/d/h/s
     this.value = value; // number 1 - 10
@@ -72,11 +67,11 @@ var newGame = function () {
     {
         jsbApp.wins += 1;
         jsbApp.games += 1;        
-        jsbApp.gameStatus = 1; // to cause the dealer's hand to be drawn face up
+        jsbApp.gameStatus = 1; //dealers first card face up
         drawHands();
-        jsbApp.textUpdates.innerHTML = "You won! You got 21 on your initial hand!";
+        jsbApp.textUpdates.innerHTML = "You won! You got Blackjack";
         track();
-        jsbApp.gameStatus = 2; // game is won
+        jsbApp.gameStatus = 2; 
         return;
     }
 

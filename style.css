@@ -7,7 +7,7 @@ body
     background-repeat: no-repeat;
     background-position: 100px 200px;
     background-position: center center;
-    background-size: 1500px 800px;
+    background-size: 1500px 900px;
    
 }
 
@@ -27,7 +27,7 @@ table
     display: table;
     padding: 8px 8px 8px 8px;
     text-align: center;
-    background-color: ;
+    background-color: /*clear*/;
     
 }
 
