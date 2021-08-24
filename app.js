@@ -1,195 +1,206 @@
 // Simple strategy is a massive oversimplification
+//future update would expand simple strategy 
+//future update would complete the input of betting
 
 
 
-
-// an object to hold all of the variables for the blackjack app
-
-var jsbApp = {};
+var myBjApp = {};
 
 
-// Store important elements in variables for later manipulation
-jsbApp.pcards = document.getElementById('pcards');
-jsbApp.dcards = document.getElementById('dcards');
-jsbApp.hitButton = document.getElementById('hit');
-jsbApp.stayButton = document.getElementById('stay');
-jsbApp.playButton = document.getElementById('play');
-jsbApp.textUpdates = document.getElementById('textUpdates');
-jsbApp.buttonBox = document.getElementById('buttonBox');
-jsbApp.phandtext = document.getElementById('phand');
-jsbApp.dhandtext = document.getElementById('dhand');
-jsbApp.tracker = document.getElementById('tracker');
-jsbApp.newgame = document.getElementById('newgame');
-jsbApp.choice = document.getElementById('choice');
+
+myBjApp.pcards = document.getElementById('pcards');
+myBjApp.dcards = document.getElementById('dcards');
+myBjApp.hitButton = document.getElementById('hit');
+myBjApp.stayButton = document.getElementById('stay');
+myBjApp.playButton = document.getElementById('play');
+myBjApp.textUpdates = document.getElementById('textUpdates');
+myBjApp.buttonBox = document.getElementById('buttonBox');
+myBjApp.phandtext = document.getElementById('phand');
+myBjApp.dhandtext = document.getElementById('dhand');
+myBjApp.tracker = document.getElementById('tracker');
+myBjApp.newgame = document.getElementById('newgame');
+myBjApp.choice = document.getElementById('choice');
 //adding betting?
-jsbApp.betting = document.getElementById('betting');
+// myBjApp.money = document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
+// myBjApp.betting = document.getElementById('betting');
+// myBjApp.bet = document.getElementById("bet").disabled = false;
+// myBjApp.bet = document.getElementById("bet").max = player.money;
 
-// initialize variables to track hands/cards/etc.
-jsbApp.playerHand = [];
-jsbApp.dealerHand = [];
-jsbApp.deck = [];
-jsbApp.suits = ['clubs <span class="bold">&#9827</span>', 'diamonds <span class="redcard">&#9830</span>', 'hearts <span class="redcard">&#9829</span>', 'spades <span class="bold">&#9824</span>'];
-jsbApp.values = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"];
-jsbApp.gameStatus = 0; 
-jsbApp.wins = 0; 
-jsbApp.draws = 0; 
-jsbApp.losses = 0; 
-jsbApp.games = 0; 
+// variables to track hands
+myBjApp.playerHand = [];
+myBjApp.dealerHand = [];
+myBjApp.deck = [];
+myBjApp.suits = ['clubs <span class="bold">&#9827</span>', 'diamonds <span class="redcard">&#9830</span>', 'hearts <span class="redcard">&#9829</span>', 'spades <span class="bold">&#9824</span>'];
+myBjApp.values = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"];
+myBjApp.gameStatus = 0; 
+myBjApp.wins = 0; 
+myBjApp.draws = 0; 
+myBjApp.losses = 0; 
+myBjApp.games = 0; 
 
-// Object Constructor for a card
+// constructor for cards
 function card(suit, value, name) {
-    this.suit = suit; // string of c/d/h/s
-    this.value = value; // number 1 - 10
-    this.name = name; // string of the full card name
+    this.suit = suit; // suits
+    this.value = value; // face value
+    this.name = name; // string name of card
 };
 
 
 var newGame = function () {
-    // remove newgame button and show hit/stay buttons
-    jsbApp.newgame.classList.add("hidden");
     
-    // reset text and variables for newgame
-    jsbApp.dcards.innerHTML = "";
-    jsbApp.dcards.innerHTML = "";
-    jsbApp.playerHand = [];
-    jsbApp.dealerHand = [];
-    jsbApp.gameStatus = 0;
+    myBjApp.newgame.classList.add("hidden");//transition from new game to hit/stay
+    
+    
+    myBjApp.dcards.innerHTML = "";
+    myBjApp.dcards.innerHTML = "";
+    myBjApp.playerHand = [];
+    myBjApp.dealerHand = [];
+    myBjApp.gameStatus = 0;
 
-    // Create the new deck
-    jsbApp.deck = createDeck();
+    //New deck
+    myBjApp.deck = createDeck();
 
-    // Deal two cards to the player and two cards to the dealer
-    jsbApp.playerHand.push(jsbApp.deck.pop());
-    jsbApp.playerHand.push(jsbApp.deck.pop());
+    // Deal cards to player and dealer
+    myBjApp.playerHand.push(myBjApp.deck.pop());
+    myBjApp.playerHand.push(myBjApp.deck.pop());
 
-    // check for player victory
-    if (handTotal(jsbApp.playerHand) === 21)
+//player betting??--broken currently
+    // function bet(outcome) {
+    //     var playerBet = document.getElementById("bet").valueAsNumber;
+    //     if (outcome === "win") {
+    //         player.money += playerBet;
+    //     }
+    //     if (outcome === "lose") {
+    //         player.money -= playerBet;
+    //     }
+    // }
+
+    // check for player initial blackjack
+    if (handTotal(myBjApp.playerHand) === 21)
     {
-        jsbApp.wins += 1;
-        jsbApp.games += 1;        
-        jsbApp.gameStatus = 1; //dealers first card face up
+        myBjApp.wins += 1;
+        myBjApp.games += 1;        
+        myBjApp.gameStatus = 1; //dealers first card face up
         drawHands();
-        jsbApp.textUpdates.innerHTML = "You won! You got Blackjack";
+        myBjApp.textUpdates.innerHTML = "You have Blackjack! Congrats you have won.";
+        track();
+        myBjApp.gameStatus = 2; 
+        return;
+    }
+
+    myBjApp.dealerHand.push(myBjApp.deck.pop());
+    myBjApp.dealerHand.push(myBjApp.deck.pop());
+
+    // check for dealer initial blackjack    
+    if (handTotal(myBjApp.dealerHand) === 21)
+    {
+        myBjApp.games += 1;
+        myBjApp.losses += 1;
+        myBjApp.gameStatus = 1; // dealers second card face up
+        drawHands();
+        myBjApp.textUpdates.innerHTML = "You lost! Dealer has 21, better luck next time!";
         track();
         jsbApp.gameStatus = 2; 
         return;
     }
 
-    jsbApp.dealerHand.push(jsbApp.deck.pop());
-    jsbApp.dealerHand.push(jsbApp.deck.pop());
-
-    // check for dealer victory    
-    if (handTotal(jsbApp.dealerHand) === 21)
-    {
-        jsbApp.games += 1;
-        jsbApp.losses += 1;
-        jsbApp.gameStatus = 1; // to cause the dealer's hand to be drawn face up
-        drawHands();
-        jsbApp.textUpdates.innerHTML = "You lost! The dealer had 21 on their initial hand.";
-        track();
-        jsbApp.gameStatus = 2; // game is won
-        return;
-    }
-
-    // draw the hands if neither won on the initial deal
+    // draw additonal cards if neither won on the initial deal
     drawHands();
     advise();
-    jsbApp.buttonBox.classList.remove("hidden"); // show hit/stay buttons
-    jsbApp.textUpdates.innerHTML = "The cards have been dealt! Good Luck!";
+    myBjApp.buttonBox.classList.remove("hidden"); // show hit/stay buttons
+    myBjApp.textUpdates.innerHTML = "The cards have been dealt! Good Luck!";
     
 };
 
 var createDeck = function () {
     var deck = [];
-    // loop through suits and values, building cards and adding them to the deck as you go
-    for (var a = 0; a < jsbApp.suits.length; a++) {
-        for (var b = 0; b < jsbApp.values.length; b++) {
+    // creating a loop for values of cards to build the deck
+    for (var a = 0; a < myBjApp.suits.length; a++) {
+        for (var b = 0; b < myBjApp.values.length; b++) {
             var cardValue = b + 1;
             var cardTitle = "";            
             if (cardValue > 10){
                 cardValue = 10;
             }
             if (cardValue != 1) {
-                cardTitle += (jsbApp.values[b] + " of " + jsbApp.suits[a] + " (" + cardValue + ")");
+                cardTitle += (myBjApp.values[b] + " of " + myBjApp.suits[a] + " (" + cardValue + ")");
             }
             else
             {
-                cardTitle += (jsbApp.values[b] + " of " + jsbApp.suits[a] + " (" + cardValue + " or 11)");
+                cardTitle += (myBjApp.values[b] + " of " + myBjApp.suits[a] + " (" + cardValue + " or 11)");
             }
-            var newCard = new card(jsbApp.suits[a], cardValue, cardTitle);
+            var newCard = new card(myBjApp.suits[a], cardValue, cardTitle);
             deck.push(newCard);
             
 
         }
     }
-    //console.log("Deck created! Deck size: " + deck.length)
+    
     deck = shuffle(deck);
-    //console.log("Deck shuffeled! Deck size: " + deck.length)
-    //deckPrinter(deck);
+    
+    
     return deck;
 };
 
-// Update the screen with the contents of the player and dealer hands
+// show player and dealer hands
 var drawHands = function () {    
     var htmlswap = "";
-    var ptotal = handTotal(jsbApp.playerHand);
-    var dtotal = handTotal(jsbApp.dealerHand);
+    var ptotal = handTotal(myBjApp.playerHand);
+    var dtotal = handTotal(myBjApp.dealerHand);
     htmlswap += "<ul>";
-    for (var i = 0; i < jsbApp.playerHand.length; i++)
+    for (var i = 0; i < myBjApp.playerHand.length; i++)
     {
-        htmlswap += "<li>" + jsbApp.playerHand[i].name + "</li>";
+        htmlswap += "<li>" + myBjApp.playerHand[i].name + "</li>";
     }
     htmlswap += "</ul>"
-    jsbApp.pcards.innerHTML = htmlswap;
-    jsbApp.phandtext.innerHTML = "Your Hand (" + ptotal + ")"; // update player hand total
-    if (jsbApp.dealerHand.length == 0)
+    myBjApp.pcards.innerHTML = htmlswap;
+    myBjApp.phandtext.innerHTML = "Your Hand (" + ptotal + ")"; // update player hand total
+    if (myBjApp.dealerHand.length == 0)
     {
         return;
     }
 
-    // clear the html string, re-do for the dealer, depending on if stay has been pressed or not
+    // clear string and swap to dealer if stay has been pressed
     htmlswap = "";
-    if (jsbApp.gameStatus === 0)
+    if (myBjApp.gameStatus === 0)
     {
         htmlswap += "<ul><li>[Hidden Card]</li>";
-        jsbApp.dhandtext.innerHTML = "Dealer's Hand (" + jsbApp.dealerHand[1].value + " + hidden card)"; // hide value while a card is face down
+        myBjApp.dhandtext.innerHTML = "Dealer's Hand (" + myBjApp.dealerHand[1].value + " + hidden card)"; // hidden value while face down
     }
     else
     {
-        jsbApp.dhandtext.innerHTML = "Dealer's Hand (" + dtotal + ")"; // update dealer hand total
+        myBjApp.dhandtext.innerHTML = "Dealer's Hand (" + dtotal + ")"; // update dealer hand total
     }
     
-    for (var i = 0; i < jsbApp.dealerHand.length; i++) {
-        // if the dealer hasn't had any new cards, don't display their face-down card
-        // skip their first card, which will be displayed as hidden card
-        // per the above if statement
-        if (jsbApp.gameStatus === 0)
+    for (var i = 0; i < myBjApp.dealerHand.length; i++) {
+        
+         if (myBjApp.gameStatus === 0)
         {
             i += 1;
         }
-        htmlswap += "<li>" + jsbApp.dealerHand[i].name + "</li>";
+        htmlswap += "<li>" + myBjApp.dealerHand[i].name + "</li>";
     }
     htmlswap += "</ul>"
-    jsbApp.dcards.innerHTML = htmlswap;
-    //console.log("Player has " + jsbApp.playerHand.length + " cards, dealer has " + jsbApp.dealerHand.length + " cards, and deck has " + jsbApp.deck.length + " cards.");
+    myBjApp.dcards.innerHTML = htmlswap;
+    
 
 };
 
-// return the total value of the hand 
+// total value of the current hand
 var handTotal = function (hand) {
-    //console.log("Checking hand value");
+    
     var total = 0;
-    var aceFlag = 0; // track the number of aces in the hand
+    var aceFlag = 0; // are there any aces
     for (var i = 0; i < hand.length; i++) {
-        //console.log("Card: " + hand[i].name);
+        
         total += hand[i].value;
         if (hand[i].value == 1)
         {
             aceFlag += 1;
         }
     }
-    // For each ace in the hand, add 10 if doing so won't cause a bust
-    // To show best-possible hand value
+    // each ace will equal 10, unless doing so results in a busted hand
+    
     for (var j = 0; j < aceFlag; j++)
     {
         if (total + 10 <= 21)
@@ -197,13 +208,13 @@ var handTotal = function (hand) {
             total +=10;
         }
     }
-    // console.log("Total: " + total);
+    
     return total;
 }
 
-// Shuffle the new deck
+// new shuffle
 var shuffle = function (deck) {
-    // console.log("Begin shuffle...");
+    
     var shuffledDeck = [];
     var deckL = deck.length;
     for (var a = 0; a < deckL; a++)
@@ -218,13 +229,13 @@ var shuffle = function (deck) {
 var getRandomInt = function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    // console.log("Min: " + min + " Max: " + max);
+    
     return Math.floor(Math.random() * (max - min)) + min;
-    // code based on sample from MDN
+    
 }
 
-// print the deck to the console 
-// only for for debugging purposes
+ 
+
 var deckPrinter = function (deck) {
     for (var i = 0; i < deck.length; i++)
     {
@@ -233,24 +244,24 @@ var deckPrinter = function (deck) {
     return
 }
 
-// Game loop begins when the play button is pressed
-jsbApp.playButton.addEventListener("click", newGame);
+// The loop for the game begins when new game is hit
+myBjApp.playButton.addEventListener("click", newGame);
 
-// Hit button pressed:
-jsbApp.hitButton.addEventListener("click", function () {
-    // disable if the game has already been won
-    if (jsbApp.gameStatus === 2)
+// When hit button is pressed
+myBjApp.hitButton.addEventListener("click", function () {
+    // disable if game has concluded
+    if (myBjApp.gameStatus === 2)
     {
-        console.log("Hit clicked when game was over or already clicked.");
+        console.log("Can not do, as game has concluded.");
         return;
     }
 
-    // deal a card to the player and draw the hands
-    jsbApp.playerHand.push(jsbApp.deck.pop());
+    // deal a card to the player
+    myBjApp.playerHand.push(myBjApp.deck.pop());
     drawHands();
    
 
-    var handVal = handTotal(jsbApp.playerHand);
+    var handVal = handTotal(myBjApp.playerHand);
     if (handVal > 21)
     {
         bust();
@@ -264,39 +275,39 @@ jsbApp.hitButton.addEventListener("click", function () {
         return;
     }
     advise();
-    jsbApp.textUpdates.innerHTML = "Hit or stay?</p>";
+    myBjApp.textUpdates.innerHTML = "Hit or stay?</p>";
     return;      
 });
 
-// Stay button pressed:
-jsbApp.stayButton.addEventListener("click", function stayLoop() {
-    //console.log("(1)Inside stayLoop now");
-    // disable ig game already won
-    if (jsbApp.gameStatus === 2)
-    {
-        console.log("Stay clicked when game was over or already clicked.");
+// When Stay button is pressed
+myBjApp.stayButton.addEventListener("click", function stayLoop() {
+    
+    
+    if (myBjApp.gameStatus === 2)
+    {    //disabled if game has already concluded
+        console.log("Cannot do as game has concluded");
         return;
     }
-    else if (jsbApp.gameStatus === 0) // i.e. stay was just pressed
+    else if (myBjApp.gameStatus === 0) //Stay was pressed
     {
         
-        jsbApp.buttonBox.classList.add("hidden"); // take away the hit and stay buttons
-        var handVal = handTotal(jsbApp.dealerHand);
-        jsbApp.gameStatus = 1; // enter the 'stay' loop
-        advise(); // clear advise
-        jsbApp.textUpdates.innerHTML = "The dealer reveals their hidden card";
+        myBjApp.buttonBox.classList.add("hidden"); // removing hit and stay buttons
+        var handVal = handTotal(myBjApp.dealerHand);
+        myBjApp.gameStatus = 1; // stay loop active
+        advise(); 
+        myBjApp.textUpdates.innerHTML = "The Dealer reveals their 'Trap Card'";
         drawHands();
-        setTimeout(stayLoop, 750); // return to the stay loop
+        setTimeout(stayLoop, 750); //stay loop returned
     }
-    else if (jsbApp.gameStatus === 1) {    
+    else if (myBjApp.gameStatus === 1) {    
 
-    // If dealer has less than 17, hit
-    var handVal = handTotal(jsbApp.dealerHand);
-    if (handVal > 16 && handVal <= 21) // dealer stays and game resolves
+    // If dealer has less than 17, hit---***** part of simple strat that needs updated******
+    var handVal = handTotal(myBjApp.dealerHand);
+    if (handVal > 16 && handVal <= 21) // dealer will stay and game will conclude
     {
         drawHands();
-        //console.log("----------Dealer stays, checking hands");
-        var playerVal = handTotal(jsbApp.playerHand);
+        
+        var playerVal = handTotal(myBjApp.playerHand);
         if (playerVal > handVal)
         {            
             victory();
@@ -318,10 +329,10 @@ jsbApp.stayButton.addEventListener("click", function stayLoop() {
         victory();
         return;
     }
-    else // hit
+    else //dealer will hit
     {
-        jsbApp.textUpdates.innerHTML = "Dealer hits!";
-        jsbApp.dealerHand.push(jsbApp.deck.pop());
+        myBjApp.textUpdates.innerHTML = "Dealer hits!";
+        myBjApp.dealerHand.push(myBjApp.deck.pop());
         drawHands();
         setTimeout(stayLoop, 750);
         return;
@@ -330,15 +341,15 @@ jsbApp.stayButton.addEventListener("click", function stayLoop() {
 });
 
 var victory = function () {
-    jsbApp.wins += 1;
-    jsbApp.games += 1;
+    myBjApp.wins += 1;
+    myBjApp.games += 1;
     var explanation = "";
-    jsbApp.gameStatus = 2; // flag that the game is over
-    var playerTotal = handTotal(jsbApp.playerHand);
-    var dealerTotal = handTotal(jsbApp.dealerHand);
+    myBjApp.gameStatus = 2; //Game is over
+    var playerTotal = handTotal(MyBjApp.playerHand);
+    var dealerTotal = handTotal(myBjApp.dealerHand);
     if (playerTotal === 21)
     {
-        explanation = "Your hand's value is 21!";
+        explanation = "You have 21!";
     }
     else if (dealerTotal > 21)
     {
@@ -348,108 +359,108 @@ var victory = function () {
     {
         explanation = "You had " + playerTotal + " and the dealer had " + dealerTotal + ".";
     }
-    jsbApp.textUpdates.innerHTML = "You won!<br>" + explanation + "<br>Press 'New Game' to play again.";
+    myBjApp.textUpdates.innerHTML = "You won!<br>" + explanation + "<br>Press 'New Game' to play again.";
     track();
 }
 
 var bust = function () {
-    jsbApp.games += 1;
-    jsbApp.losses += 1;
+    myBjApp.games += 1;
+    myBjApp.losses += 1;
     var explanation = "";
-    jsbApp.gameStatus = 2; // flag that the game is over
-    var playerTotal = handTotal(jsbApp.playerHand);
-    var dealerTotal = handTotal(jsbApp.dealerHand);
+    myBjApp.gameStatus = 2; //game has concluded
+    var playerTotal = handTotal(myBjApp.playerHand);
+    var dealerTotal = handTotal(myBjApp.dealerHand);
     if (playerTotal > 21)
     {
         explanation = "You busted with " + playerTotal + ".";
     }
-    jsbApp.textUpdates.innerHTML = "You lost.<br>" + explanation + "<br>Press 'New Game' to play again.";
+    myBjApp.textUpdates.innerHTML = "You lost.<br>" + explanation + "<br>Press 'New Game' to play again.";
     track();
 }
 
 var tie = function () {    
-    jsbApp.games += 1;
-    jsbApp.draws += 1;
+    myBjApp.games += 1;
+    myBjApp.draws += 1;
     var explanation = "";
-    jsbApp.gameStatus = 2; // flag that the game is over
-    var playerTotal = handTotal(jsbApp.playerHand);
-    jsbApp.textUpdates.innerHTML = "It's a tie at " + playerTotal + " points each.<br>Press 'New Game' to play again.";
+    myBjApp.gameStatus = 2; //game has concluded
+    var playerTotal = handTotal(myBjApp.playerHand);
+    myBjApp.textUpdates.innerHTML = "It's a push at " + playerTotal + " points each.<br>Press 'New Game' to play again.";
     track();
 }
 
-// update the win/loss counter
+// the win/loss/tie counter
 var track = function () {
-    jsbApp.tracker.innerHTML = "<p>Wins: " + jsbApp.wins + " Draws: " + jsbApp.draws + " Losses: " + jsbApp.losses + "</p>";
-    jsbApp.newgame.classList.remove("hidden");
-    jsbApp.buttonBox.classList.add("hidden");
+    myBjApp.tracker.innerHTML = "<p>Wins: " + myBjApp.wins + " Draws: " + myBjApp.draws + " Losses: " + myBjApp.losses + "</p>";
+    myBjApp.newgame.classList.remove("hidden");
+    myBjApp.buttonBox.classList.add("hidden");
 }
 
-// check the player hand for an ace
+// checking player for ace/ adding soft input
 var softCheck = function (hand) {    
     var total = 0;
-    var aceFlag = 0; // track the number of aces in the hand
+    var aceFlag = 0; // how many aces
     for (var i = 0; i < hand.length; i++) {
-        //console.log("Card: " + hand[i].name);
+        
         total += hand[i].value;
         if (hand[i].value == 1) {
             aceFlag += 1;
         }
     }
-    // For each ace in the hand, add 10 if doing so won't cause a bust
-    // To show best-possible hand value
+    // each ace equals 11 unless resulting in a busted hand
+    
     for (var j = 0; j < aceFlag; j++) {
         if (total + 10 <= 21) {
-            return true; // the hand is soft, i.e. it can be multiple values because of aces
+            return true; // the hand can be soft
         }
     }    
-    return false; // the hand is hard, i.e. it has only one possible value
+    return false; // the hand can no longer be soft and is considered hard
 }
 
 var advise = function () {
-    // no advise if player has no choices
-    if (jsbApp.gameStatus > 0)
+    
+    if (myBjApp.gameStatus > 0)
     {
-        jsbApp.choice.innerHTML = "";
+        myBjApp.choice.innerHTML = "";
         return;
     } 
-    var playerTotal = handTotal(jsbApp.playerHand);
-    var soft = softCheck(jsbApp.playerHand);
+    var playerTotal = handTotal(myBjApp.playerHand);
+    var soft = softCheck(myBjApp.playerHand);
     console.log("Soft: " + soft);
-    var dealerUp = jsbApp.dealerHand[1].value;
-    // count dealer's ace as 11 to simplify logic
+    var dealerUp = myBjApp.dealerHand[1].value;
+    // counting dealers ace as 11, *****needs updating to better evaluate simple strat
     if (dealerUp === 1)
     {
         dealerUp = 11;
     }
 
-    // provide advice based on HIGHLY simplified blackjack basic strategy
+    // provide advice on over simplified strat
     if (playerTotal <= 11 && !soft)
     {
-        jsbApp.choice.innerHTML = "Hit!";
+        myBjApp.choice.innerHTML = "Hit!";
     }
     else if (playerTotal >= 12 && playerTotal <= 16 && dealerUp <= 6 && !soft)
     {
-        jsbApp.choice.innerHTML = "Stay";
+        myBjApp.choice.innerHTML = "Stay";
     }
     else if (playerTotal >= 12 && playerTotal <= 16 && dealerUp >= 7 && !soft)
     {
-        jsbApp.choice.innerHTML = "Hit!";
+        myBjApp.choice.innerHTML = "Hit!";
     }
     else if (playerTotal >= 17 && playerTotal <= 21 && !soft)
     {
-        jsbApp.choice.innerHTML = "Stay";
+        myBjApp.choice.innerHTML = "Stay";
     }
     else if (playerTotal >= 12 && playerTotal <= 18 && soft)
     {
-        jsbApp.choice.innerHTML = "Hit!";
+        myBjApp.choice.innerHTML = "Hit!";
     }
     else if (playerTotal >= 19 && playerTotal <= 21 && soft)
     {
-        jsbApp.choice.innerHTML = "Stay";
+        myBjApp.choice.innerHTML = "Stay";
     }
     else
     {
-        jsbApp.choice.innerHTML = "Massive error, unexpected scenario, idk";
+        myBjApp.choice.innerHTML = "Massive error, unexpected scenario, idk";
         console.log("Error: Player's hand was " + playerTotal + " and dealer's faceup was " + dealerUp + ".");
     }
     return;
